@@ -1,6 +1,7 @@
 import 'package:client/core/provider/current_song_notifier.dart';
 import 'package:client/core/theme/app_pallet.dart';
 import 'package:client/core/utils.dart';
+import 'package:client/features/home/model/song_model.dart';
 import 'package:client/features/home/viewmodel/home_viewmodel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,24 +16,27 @@ class SearchPage extends ConsumerStatefulWidget {
 
 class _SearchPageState extends ConsumerState<SearchPage> {
   final searchController = TextEditingController();
-  List filteredSongs = [];
+  List<SongModel> filteredSongs = [];
+  List<SongModel> allSongs = [];
 
   @override
   void initState() {
     super.initState();
-    final allSongs = ref.read(homeViewModelProvider.notifier).getRecentSongs();
-    filteredSongs = allSongs.take(5).toList();
-    searchController.addListener((){searchSong();});
+    _initializeSongs();
+    searchController.addListener(() {
+      searchSong();
+    });
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    searchController.dispose();
+  Future<void> _initializeSongs() async {
+    final songs = await ref.read(getAllSongProvider.future);
+    setState(() {
+      allSongs = songs;
+      filteredSongs = songs.take(5).toList();
+    });
   }
 
   void searchSong() {
-    final allSongs = ref.read(homeViewModelProvider.notifier).getRecentSongs();
     final query = searchController.text.toLowerCase();
 
     setState(() {
@@ -47,6 +51,12 @@ class _SearchPageState extends ConsumerState<SearchPage> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    searchController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final currentSong = ref.watch(currentSongNotifierProvider);
     return AnimatedContainer(
@@ -56,16 +66,16 @@ class _SearchPageState extends ConsumerState<SearchPage> {
       decoration: currentSong == null
           ? null
           : BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            hexToRgb(currentSong.hexColor),
-            Pallet.transparentColor
-          ],
-          stops: const [0.0, 0.3],
-        ),
-      ),
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  hexToRgb(currentSong.hexColor),
+                  Pallet.transparentColor
+                ],
+                stops: const [0.0, 0.3],
+              ),
+            ),
       child: SafeArea(
         child: Column(
           children: [

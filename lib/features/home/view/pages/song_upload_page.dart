@@ -79,6 +79,7 @@ class _SongUploadPageState extends ConsumerState<SongUploadPage> {
                       songName: songNameController.text,
                       colorHex: selectedColor,
                     );
+                Navigator.of(context).pop();
               } else {
                 Fluttertoast.showToast(
                     msg: 'Missing field!', timeInSecForIosWeb: 5);
