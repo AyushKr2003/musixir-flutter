@@ -80,7 +80,9 @@ class MusicSlab extends ConsumerWidget {
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
+                            overflow: TextOverflow.ellipsis,
                           ),
+                          maxLines: 1,
                         ),
                         Text(
                           currentSong.artist,
@@ -88,7 +90,9 @@ class MusicSlab extends ConsumerWidget {
                             color: Pallet.subtitleText,
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
+                            overflow: TextOverflow.ellipsis,
                           ),
+                          maxLines: 1,
                         ),
                       ],
                     )

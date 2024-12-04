@@ -68,11 +68,11 @@ class _SongUploadPageState extends ConsumerState<SongUploadPage> {
         centerTitle: true,
         actions: [
           IconButton(
-            onPressed: () {
+            onPressed: () async{
               if (formKey.currentState!.validate() &&
                   selectedImage != null &&
                   selectedAudio != null) {
-                ref.read(homeViewModelProvider.notifier).uploadSong(
+                await ref.read(homeViewModelProvider.notifier).uploadSong(
                       uploadSong: selectedAudio!,
                       thumbnailFile: selectedImage!,
                       artist: artistController.text,

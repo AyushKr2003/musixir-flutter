@@ -62,7 +62,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                   ? Colors.white
                   : Pallet.inactiveBottomBarItemColor,
             ),
-            label: 'Library',
+            label: 'Search',
           ),
           BottomNavigationBarItem(
             icon: Image.asset(

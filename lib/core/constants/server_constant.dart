@@ -1,7 +1,8 @@
 import 'dart:io';
 
 class ServerConstant {
-  static String serverUrl = _getServerUrl();
+  static String serverUrl = 'https://musixir-backend.onrender.com/';
+  // _getServerUrl();
 
   static String _getServerUrl() {
     try {
